@@ -1,5 +1,6 @@
 # hej hej
 # change 2
+# change till branch 1
 
 Energy=13.8; % keV
 lambda=1.24E-9/Energy;
@@ -22,6 +23,7 @@ kf=ki+G;
 
 norm_kf=kf/norm(kf);
 
+yD = norm_kf(2)*(Distance/norm_kf(1))
 zD = norm_kf(3)*(Distance/norm_kf(1))
 yPix=yD/Pixel
 zPix=zD/Pixel
