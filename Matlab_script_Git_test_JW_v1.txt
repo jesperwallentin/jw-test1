@@ -1,0 +1,49 @@
+# hej hej
+# change 2
+
+Energy=13.8; % keV
+lambda=1.24E-9/Energy;
+Distance=0.38; % Detector distance
+Pixel=0.172E-3; % Pixel size
+
+alfa = 15.6; % Rotation of nanowire in y-z plane
+d=1.00*0.339E-9; % Lattice plane separation
+
+ThetaBragg=(180/pi)*asin(lambda/(2*d)) % Bragg angle, ignoring alfa rotation
+
+Fi=(180/pi)*asin(lambda/(2*d*cos(alfa*pi/180))) % Bragg angle (around y-axis), with alfa rotation
+
+ki=[2*pi/lambda; 0; 0];
+G=(2*pi/d)*[-sin(Fi*pi/180)*cos(alfa*pi/180); cos(Fi*pi/180)*cos(alfa*pi/180); sin(alfa*pi/180)];
+G_length=norm(G,2);
+kf=ki+G;
+% norm(ki)
+% norm(kf)
+
+norm_kf=kf/norm(kf);
+
+zD = norm_kf(3)*(Distance/norm_kf(1))
+yPix=yD/Pixel
+zPix=zD/Pixel
+
+DetAngle=(180/pi)*atan(zD/yD)
+
+%% Shift due to bending
+alfa2=alfa*(1+9e-3);
+Fi2=(180/pi)*asin(lambda/(2*d*cos(alfa2*pi/180)));
+G2=(2*pi/d)*[-sin(Fi2*pi/180)*cos(alfa2*pi/180); cos(Fi2*pi/180)*cos(alfa2*pi/180); sin(alfa2*pi/180)]
+G_length2=norm(G2,2)
+kf2=ki+G2
+
+norm_kf2=kf2/norm(kf2)
+
+yD2 = norm_kf2(2)*(Distance/norm_kf2(1));
+zD2 = norm_kf2(3)*(Distance/norm_kf2(1));
+yPix2=yD2/Pixel
+zPix2=zD2/Pixel;
+yDshift=yD2-yD
+zDshift=zD2-zD
+yPixShift=yPix2-yPix
+zPixShift=zPix2-zPix
+alfashiftrad=(pi/180)*(alfa2-alfa)
+
